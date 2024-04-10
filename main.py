@@ -1,14 +1,18 @@
 import pandas
 
-# Create a dictionary from csv
+data = pandas.read_csv("nato_phonetic_alphabet.csv")
+nato_dict = {row.letter: row.code for index, row in data.iterrows()}
 
-nato = pandas.read_csv("nato_phonetic_alphabet.csv")
-nato_dict = {row.letter: row.code for index, row in nato.iterrows()}
 
-# Create a list of the phonetic code words from a word that the user inputs.
-input_word = input("Enter a word: ").upper()
-char_list = [char for char in input_word]
+def generate_nato_dict():
+    input_word = input("Enter a word: ").upper()
+    try:
+        output = [nato_dict[letter] for letter in input_word]
+    except KeyError:
+        print("Sorry, only letters in the alphabet please")
+        generate_nato_dict()
+    else:
+        print(output)
 
-output = [nato_dict[key] if key in nato_dict else None for key in char_list]
 
-print(output)
+generate_nato_dict()
